@@ -1,0 +1,16 @@
+.navbar {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: black;
+  color: white;
+  padding: 1rem;
+  .navbar_items_right {
+    display: flex;
+    align-items: center;
+  }
+  .profile_pic {
+    border-radius: 50%;
+  }
+}
