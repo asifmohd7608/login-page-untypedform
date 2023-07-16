@@ -1,4 +1,9 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login_form">
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="onSubmit()"
+  class="login_form"
+  autocomplete="off"
+>
   <h2>Login</h2>
   <div>
     <label for="email">Enter Mail Id</label>
@@ -6,14 +11,14 @@
     <div
       class="error_msg"
       *ngIf="
-        (loginForm.controls.email.touched || loginForm.controls.email.dirty) &&
-        loginForm.controls.email.errors
+        (loginForm.get('email')?.touched || loginForm.get('email')?.dirty) &&
+        loginForm.get('email')?.errors
       "
     >
-      <div *ngIf="loginForm.controls.email.errors['required']">
+      <div *ngIf="loginForm.get('email')?.hasError('required')">
         Email is required.
       </div>
-      <div *ngIf="loginForm.controls.email.errors['email']">
+      <div *ngIf="loginForm.get('email')?.hasError('email')">
         Invalid email format.
       </div>
     </div>
@@ -30,19 +35,97 @@
     <div
       class="error_msg"
       *ngIf="
-        (loginForm.controls.password.touched ||
-          loginForm.controls.password.dirty) &&
-        loginForm.controls.password.errors
+        (loginForm.get('password')?.touched ||
+          loginForm.get('password')?.dirty) &&
+        loginForm.get('password')?.errors
       "
     >
-      <div *ngIf="loginForm.controls.password.errors['required']">
+      <div *ngIf="loginForm.get('password')?.hasError('required')">
         password is required
       </div>
-      <div *ngIf="loginForm.controls.password.errors['minlength']">
+      <div *ngIf="loginForm.get('password')?.hasError('minlength')">
         password should be atleast 8 characters long
       </div>
     </div>
   </div>
+
+  <!-- --------------------------adress1----------------------------------------- -->
+  <div formGroupName="address1">
+    <label for="email">Address</label>
+    <label for="houseName">House name</label>
+    <input
+      type="text"
+      id="houseName"
+      name="houseName"
+      formControlName="houseName"
+    />
+    <div
+      class="error_msg"
+      *ngIf="
+        (loginForm.get('address1.houseName')?.touched ||
+          loginForm.get('address1.houseName')?.dirty) &&
+        loginForm.get('address1.houseName')?.errors
+      "
+    >
+      <div *ngIf="loginForm.get('address1.houseName')?.hasError('required')">
+        house name is required.
+      </div>
+      <div *ngIf="loginForm.get('address1.houseName')?.hasError('minlength')">
+        house name should be minimum 3 characters
+      </div>
+    </div>
+
+    <!-- -------------------city------------------ -->
+    <label for="city">city</label>
+    <input type="text" id="city" name="city" formControlName="city" />
+    <div
+      class="error_msg"
+      *ngIf="
+        (loginForm.get('address1.city')?.touched ||
+          loginForm.get('address1.city')?.dirty) &&
+        loginForm.get('address1.city')?.errors
+      "
+    >
+      <div *ngIf="loginForm.get('address1.city')?.hasError('required')">
+        city name is required.
+      </div>
+      <div *ngIf="loginForm.get('address1.city')?.hasError('minlength')">
+        city name should be minimum 3 characters
+      </div>
+    </div>
+
+    <!-- --------------------------state---------------------------- -->
+    <label for="state">state</label>
+
+    <input type="text" id="state" name="state" formControlName="state" />
+    <div
+      class="error_msg"
+      *ngIf="
+        (loginForm.get('address1.state')?.touched ||
+          loginForm.get('address1.state')?.dirty) &&
+        loginForm.get('address1.state')?.errors
+      "
+    >
+      <div *ngIf="loginForm.get('address1.state')?.hasError('required')">
+        state name is required.
+      </div>
+      <div *ngIf="loginForm.get('address1.state')?.hasError('minlength')">
+        state name should be minimum 3 characters
+      </div>
+    </div>
+  </div>
+
+  <!-- -------------------------------skills------------------ -->
+
+  <label for="skills">skills</label>
+  <div formArrayName="skills">
+    <div *ngFor="let skill of skills.controls; let i = index">
+      <input type="text" formControlName="{{ i }}" />
+      <span (click)="removeSkill(i)"> X </span>
+    </div>
+  </div>
+  <button type="button" (click)="addSkill()">Add Skill</button>
   <button type="submit" [disabled]="loginForm.invalid">Login</button>
+  <button type="button" (click)="checkFormValues()">Test Form</button>
   <div class="error_msg" *ngIf="errorMsg.length > 1">{{ errorMsg }}</div>
 </form>
